@@ -1,0 +1,22 @@
+# Claude Code
+.claude/
+
+# Environment
+.env
+
+# Build output
+/taskflow
+/bin/
+
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Go
+*.test
+*.out
+vendor/
