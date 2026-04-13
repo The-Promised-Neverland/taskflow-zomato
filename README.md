@@ -8,6 +8,11 @@ This repo is mostly backend-only. A Lovable frontend was used for visual testing
 
 It is also deployed on EC2 for review and live testing.
 
+Deployed links:
+
+- Frontend: `http://ec2-13-126-105-149.ap-south-1.compute.amazonaws.com/`
+- Backend API: `http://ec2-13-126-105-149.ap-south-1.compute.amazonaws.com:8080/`
+
 Tech stack:
 
 - Go
@@ -36,6 +41,7 @@ Auth flow in short:
 
 - Login and register create a session row in the database.
 - The API returns an access token and a refresh token.
+- Tokens are returned in the JSON response body, not written to cookies by the backend.
 - The access token is used on protected requests.
 - The backend checks the session row in the database on every protected request.
 - The refresh token is only used when the frontend calls the refresh endpoint.
@@ -71,6 +77,12 @@ If you are hitting the EC2 deploy directly, the base URL is:
 
 ```text
 http://ec2-13-126-105-149.ap-south-1.compute.amazonaws.com:8080/
+```
+
+The deployed frontend is:
+
+```text
+http://ec2-13-126-105-149.ap-south-1.compute.amazonaws.com/
 ```
 
 If you want the stack in the background instead of the terminal, use:
@@ -206,10 +218,43 @@ Notes:
 - `due_date` is optional and must be `YYYY-MM-DD` if provided.
 - Task updates are allowed for the project owner or the assigned user.
 
-## 7. What I’d Do With More Time
+## 7. Status Codes
+
+These are the HTTP status codes the current handlers and middleware return.
+
+| Route | Success | Possible error codes |
+| --- | --- | --- |
+| `GET /api/health` | `200` | `500` |
+| `POST /api/v1/auth/register` | `201` | `400`, `409`, `500` |
+| `POST /api/v1/auth/login` | `200` | `400`, `401`, `500` |
+| `POST /api/v1/auth/refresh` | `200` | `400`, `401`, `500` |
+| `POST /api/v1/auth/logout` | `204` | `401`, `500` |
+| `POST /api/v1/auth/logout-all` | `204` | `401`, `500` |
+| `GET /api/v1/projects` | `200` | `400`, `401`, `500` |
+| `POST /api/v1/projects` | `201` | `400`, `401`, `500` |
+| `GET /api/v1/projects/:id` | `200` | `400`, `401`, `404`, `500` |
+| `PATCH /api/v1/projects/:id` | `200` | `400`, `401`, `403`, `404`, `500` |
+| `DELETE /api/v1/projects/:id` | `204` | `400`, `401`, `403`, `404`, `500` |
+| `GET /api/v1/projects/:id/stats` | `200` | `400`, `401`, `403`, `404`, `500` |
+| `GET /api/v1/projects/:id/tasks` | `200` | `400`, `401`, `500` |
+| `POST /api/v1/projects/:id/tasks` | `201` | `400`, `401`, `404`, `500` |
+| `PATCH /api/v1/tasks/:id` | `200` | `400`, `401`, `403`, `404`, `500` |
+| `DELETE /api/v1/tasks/:id` | `204` | `400`, `401`, `403`, `404`, `500` |
+
+Notes:
+
+- `400` usually means invalid JSON, validation failure, or a malformed UUID/date field.
+- `401` means the access token is missing or invalid, or login credentials are wrong.
+- `403` means the caller is authenticated but not allowed to perform the action.
+- `404` means the project or task was not found.
+- `409` is used when the email is already registered.
+- `500` means something failed unexpectedly on the server side.
+
+## 8. What I’d Do With More Time
 
 - Add Swagger/OpenAPI docs so the API is easier to explore.
 - Add load testing with K6 and Grafana to check how the API behaves under stress.
 - Add more integration tests against a real Postgres container.
 - Improve auth with things like password reset, active session management, and device fingerprinting.
+- Switch to httpOnly cookie-based auth instead of sending JWTs through the response body and `Authorization` header.
 - Add better logging, rate limiting, and observability around migrations and failures.
