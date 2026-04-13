@@ -18,6 +18,7 @@ func NewRouter(uc *usecase.UseCases) http.Handler {
 	r := gin.New()
 
 	// Shared middleware
+	r.Use(middleware.CORS())
 	r.Use(middleware.RequestID())
 	r.Use(middleware.Logger())
 	r.Use(middleware.Recovery())
