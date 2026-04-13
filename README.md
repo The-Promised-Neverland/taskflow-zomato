@@ -61,8 +61,8 @@ Tradeoffs:
 Assume Docker is installed and nothing else.
 
 ```bash
-git clone <your-repo-url>
-cd taskflow-abhijit
+git clone https://github.com/The-Promised-Neverland/taskflow-zomato.git
+cd taskflow-zomato
 cp .env.example .env
 docker compose up --build
 ```
@@ -99,8 +99,8 @@ Local env values already work in `.env.example`. The important ones are:
 - `DB_USER=postgres`
 - `DB_PASSWORD=postgres`
 - `DB_SSLMODE=disable`
-- `ACCESS_TOKEN_EXPIRATION=25h`
-- `REFRESH_TOKEN_EXPIRATION=720h`
+- `ACCESS_TOKEN_EXPIRATION=10m`
+- `REFRESH_TOKEN_EXPIRATION=24h`
 
 ## 4. Running Migrations
 
