@@ -43,6 +43,21 @@ services:
       ACCESS_TOKEN_EXPIRATION: ${ACCESS_TOKEN_EXPIRATION}
       REFRESH_TOKEN_EXPIRATION: ${REFRESH_TOKEN_EXPIRATION}
     depends_on:
+      seeder:
+        condition: service_completed_successfully
+
+  seeder:
+    build:
+      context: .
+      dockerfile: Dockerfile.seeder
+    environment:
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_SSLMODE: ${DB_SSLMODE}
+    depends_on:
       migrate:
         condition: service_completed_successfully
 
