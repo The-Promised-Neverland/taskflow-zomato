@@ -24,7 +24,7 @@ jobs:
           go-version-file: go.mod
 
       - name: Run tests
-        run: go test ./...
+        run: go test ./tests -v
 
       - name: Copy project to EC2
         uses: appleboy/scp-action@v0.1.7
