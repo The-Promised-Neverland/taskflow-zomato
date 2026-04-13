@@ -16,9 +16,10 @@ services:
       retries: 10
 
   migrate:
-    image: golang:1.24-alpine
-    working_dir: /workspace
-    command: sh -c "go run github.com/pressly/goose/v3/cmd/goose@v3.26.0 -dir /migrations postgres \"$${DB_CONNECTION_STR}\" up"
+    build:
+      context: .
+      dockerfile: Dockerfile.migrate
+    command: sh -c "goose -dir /migrations postgres \"$${DB_CONNECTION_STR}\" up"
     environment:
       DB_CONNECTION_STR: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?sslmode=${DB_SSLMODE}
     volumes:
