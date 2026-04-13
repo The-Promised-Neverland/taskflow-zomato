@@ -8,7 +8,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func TestProjectStatsRouteWorks(t *testing.T) {
+func TestProjectsStatsRouteWorks(t *testing.T) {
 	InitTestMode(t)
 	router := NewRouter()
 

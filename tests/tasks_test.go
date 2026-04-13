@@ -8,7 +8,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func TestTaskListUsesLimitPagination(t *testing.T) {
+func TestTasksListUsesLimitPagination(t *testing.T) {
 	InitTestMode(t)
 	router := NewRouter()
 

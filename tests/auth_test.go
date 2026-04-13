@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-func TestRegisterReturnsTokens(t *testing.T) {
+func TestAuthRegisterReturnsTokens(t *testing.T) {
 	InitTestMode(t)
 	router := NewRouter()
 
@@ -32,7 +32,7 @@ func TestRegisterReturnsTokens(t *testing.T) {
 	}
 }
 
-func TestLoginReturnsTokens(t *testing.T) {
+func TestAuthLoginReturnsTokens(t *testing.T) {
 	InitTestMode(t)
 	router := NewRouter()
 
@@ -48,7 +48,7 @@ func TestLoginReturnsTokens(t *testing.T) {
 	}
 }
 
-func TestRefreshReturnsNewTokens(t *testing.T) {
+func TestAuthRefreshReturnsNewTokens(t *testing.T) {
 	InitTestMode(t)
 	router := NewRouter()
 
