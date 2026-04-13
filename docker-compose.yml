@@ -16,12 +16,10 @@ services:
       retries: 10
 
   migrate:
-    build:
-      context: .
-      dockerfile: Dockerfile.migrate
-    command: sh -c "goose -dir /migrations postgres \"$${DB_CONNECTION_STR}\" up"
+    image: ghcr.io/kukymbr/goose-docker:3.27.0
     environment:
-      DB_CONNECTION_STR: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?sslmode=${DB_SSLMODE}
+      GOOSE_DRIVER: postgres
+      GOOSE_DBSTRING: host=db port=5432 user=${DB_USER} password=${DB_PASSWORD} dbname=${DB_NAME} sslmode=${DB_SSLMODE}
     volumes:
       - ./migrations:/migrations:ro
     depends_on:
