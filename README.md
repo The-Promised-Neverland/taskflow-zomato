@@ -62,8 +62,6 @@ Assume Docker is installed and nothing else.
 
 ```bash
 git clone https://github.com/The-Promised-Neverland/taskflow-zomato.git
-cd taskflow-zomato
-cp .env.example .env
 docker compose up --build
 ```
 
